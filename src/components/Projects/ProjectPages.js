@@ -13,44 +13,6 @@ const ProjectPagesComponent = () => {
   const [dataReceived, setDataReceived] = useState(false);
   const [title, setTitle] = useState("Project");
 
-  // useEffect(() => {
-  //   firestore
-  //     .collection("accounts")
-  //     .doc(localStorage.getItem("accountId"))
-  //     .collection("projects")
-  //     .doc(projectId)
-  //     .get()
-  //     .then((res) => {
-  //       setProject(res.data());
-  //     })
-  //     .then(() => {
-  //       firestore
-  //         .collection("accounts")
-  //         .doc(localStorage.getItem("accountId"))
-  //         .collection("projects")
-  //         .doc(projectId)
-  //         .collection("pages")
-  //         .get()
-  //         .then((res) => {
-  //           let pageList = [];
-  //           res.docs.forEach((doc) => {
-  //             let obj = {
-  //               id: doc.id,
-  //               author: doc.data().author,
-  //               authorId: doc.data().authorId,
-  //               created: doc.data().created,
-  //               pageTitle: doc.data().pageTitle,
-  //             };
-  //             pageList = [...pageList, obj];
-  //             setPages(pageList);
-  //           });
-  //         })
-  //         .then(() => {
-  //           setDataReceived(true);
-  //         });
-  //     });
-  // }, [projectId]);
-
   useEffect(() => {
     axios.get(`http://localhost:5000/projects/${projectId}`).then((res) => {
       setProject(res.data);
@@ -67,6 +29,7 @@ const ProjectPagesComponent = () => {
             authorId: doc.authorId,
             created: doc.created,
             pageTitle: doc.pageTitle,
+            identifier: doc.identifier,
           };
           pgList = [...pgList, obj];
         });
@@ -86,10 +49,6 @@ const ProjectPagesComponent = () => {
     window.location.replace(link);
   };
 
-  useEffect(() => {
-    console.log(dataReceived);
-  }, [dataReceived]);
-
   if (!dataReceived) {
     return (
       <>
@@ -105,7 +64,7 @@ const ProjectPagesComponent = () => {
             </div>
             <div className="row">
               <img
-                src={require("../../assets/img/loader2.gif").default}
+                src={require("../../assets/img/loader7.gif").default}
                 alt=""
                 className="loader"
               />

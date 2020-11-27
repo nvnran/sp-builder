@@ -13,8 +13,6 @@ const BuilderComponent = () => {
   const pageId = new URLSearchParams(window.location.search).get('pageId');
   const accountId = localStorage.getItem('accountId');
 
-  console.log(accountId, projectId, pageId);
-
   const editor = grapesjs.init({
     container: '#gjs',
     fromElement: true,
@@ -39,7 +37,6 @@ const BuilderComponent = () => {
       .doc(pageId)
       .get()
       .then((res) => {
-        console.log(res.data());
         localStorage.setItem('gjs-assets', res.data()['gjs-assets']);
         localStorage.setItem('gjs-components', res.data()['gjs-components']);
         localStorage.setItem('gjs-css', res.data()['gjs-css']);

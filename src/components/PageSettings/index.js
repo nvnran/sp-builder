@@ -1,61 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
-import PageDetails from './PageDetails';
-import SeoSettings from './SeoSettings';
-import MicroBotSettings from './MicroBotSettings';
-import CustomCode from './CustomCode';
-import { firestore } from '../Firebase';
+import React from "react";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import PageDetails from "./PageDetails";
+import SeoSettings from "./SeoSettings";
+import MicroBotSettings from "./MicroBotSettings";
+import CustomCode from "./CustomCode";
 
 const PageSettingsComponent = () => {
-  const accountId = new URLSearchParams(window.location.search).get(
-    'accountId'
-  );
-  const projectId = new URLSearchParams(window.location.search).get(
-    'projectId'
-  );
-  const pageId = new URLSearchParams(window.location.search).get('pageId');
-  const [pageData, setPageData] = useState([]);
-
-  useEffect(() => {
-    console.log(accountId, projectId, pageId);
-    firestore
-      .collection('accounts')
-      .doc(accountId)
-      .collection('projects')
-      .doc(projectId)
-      .collection('pages')
-      .doc(pageId)
-      .get()
-      .then((res) => {
-        setPageData(res.data());
-      });
-  }, [accountId, projectId, pageId]);
-
+  const pageId = new URLSearchParams(window.location.search).get("pageId");
   return (
     <>
-      <div className='settings'>
-        <div className='container mt-5'>
-          <div className='row'>
-            <Tabs defaultActiveKey='pageDetails' id='pageSettingTabsContainer'>
-              <Tab eventKey='pageDetails' title='Page Details'>
+      <div className="settings">
+        <div className="container mt-5">
+          <div className="row">
+            <Tabs defaultActiveKey="pageDetails" id="pageSettingTabsContainer">
+              <Tab eventKey="pageDetails" title="Page Details">
                 <div>
-                  <PageDetails data={pageData} />
+                  <PageDetails pageId={pageId} />
                 </div>
               </Tab>
-              <Tab eventKey='seo' title='SEO'>
+              <Tab eventKey="seo" title="SEO">
                 <div>
-                  <SeoSettings />
+                  <SeoSettings pageId={pageId} />
                 </div>
               </Tab>
-              <Tab eventKey='microbot' title='MicroBot Settings'>
+              <Tab eventKey="microbot" title="MicroBot Settings">
                 <div>
-                  <MicroBotSettings />
+                  <MicroBotSettings pageId={pageId} />
                 </div>
               </Tab>
-              <Tab eventKey='code' title='Code'>
+              <Tab eventKey="code" title="Code">
                 <div>
-                  <CustomCode />
+                  <CustomCode pageId={pageId} />
                 </div>
               </Tab>
             </Tabs>

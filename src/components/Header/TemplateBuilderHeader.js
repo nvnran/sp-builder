@@ -28,11 +28,9 @@ const HeaderComponent = () => {
       gjscss: localStorage.getItem("gjscss"),
       gjsstyles: localStorage.getItem("gjsstyles"),
     };
-    console.log(obj);
     axios
       .post(`http://localhost:5000/templates/add`, obj)
       .then((res) => {
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   };

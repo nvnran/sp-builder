@@ -62,8 +62,12 @@ app.get("/viewpage/page/:pageId", (req, res) => {
       title: doc.pageTitle,
       styles: `<style>${doc.gjscss}</style>`,
       content: doc.gjshtml,
+      script: `${doc.script}`,
     };
-    console.log(obj);
+    res.set(
+      "Content-Security-Policy",
+      "default-src *; img-src * data: gap:; style-src * 'unsafe-inline'; "
+    );
     res.render("index", {
       output: obj,
     });

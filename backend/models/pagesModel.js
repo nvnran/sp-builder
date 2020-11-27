@@ -47,6 +47,14 @@ const pagesSchema = new Schema({
     type: String,
     required: false,
   },
+  script: {
+    type: String,
+    required: false,
+  },
+  identifier: {
+    type: String,
+    required: false,
+  },
 });
 
 const pages = mongoose.model("Pages", pagesSchema);

@@ -14,8 +14,51 @@ router.route("/:pageId").get((req, res) => {
     .catch((err) => res.status(400).send({ error: err }));
 });
 
+router.route("/pagedetails/:pageId").get((req, res) => {
+  Pages.findById(req.params.pageId)
+    .select(["pageTitle", "author", "created"])
+    .then((data) => res.json(data))
+    .catch((err) => res.status(400).send({ error: err }));
+});
+
+router.route("/botdetails/:pageId").get((req, res) => {
+  Pages.findById(req.params.pageId)
+    .select(["identifier"])
+    .then((data) => res.json(data))
+    .catch((err) => res.status(400).send({ error: err }));
+});
+
+router.route("/pagedetails/:pageId").post((req, res) => {
+  Pages.findById(req.params.pageId).then((page) => {
+    page.pageTitle = req.body.pageTitle;
+    page
+      .save()
+      .then(() => res.json("updated"))
+      .catch((err) => res.status(400).send({ error: err }));
+  });
+});
+
+router.route("/botidentifier/:pageId").post((req, res) => {
+  Pages.findById(req.params.pageId).then((page) => {
+    page.identifier = req.body.identifier;
+    page
+      .save()
+      .then(() => res.json("updated"))
+      .catch((err) => res.status(400).send({ error: err }));
+  });
+});
+
+router.route("/savescript/:pageId").post((req, res) => {
+  Pages.findById(req.params.pageId).then((page) => {
+    page.script = req.body.script;
+    page
+      .save()
+      .then((data) => res.json(data))
+      .catch((err) => res.status(400).send({ error: err }));
+  });
+});
+
 router.route("/projectPages/:projectId").get((req, res) => {
-  console.log(req.params.projectId);
   Pages.find({ projectId: req.params.projectId })
     .then((data) => res.json(data))
     .catch((err) => res.status(400).send({ error: err }));
@@ -28,7 +71,6 @@ router.route("/:pageId").delete((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  console.log(req.body.pageTitle);
   let page = {};
   page.author = req.body.author;
   page.authorId = req.body.authorId;

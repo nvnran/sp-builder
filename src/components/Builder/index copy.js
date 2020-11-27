@@ -94,8 +94,6 @@ const HomeComponent = () => {
     editor();
   }, [pageData]);
 
-  console.log("rendering editor");
-
   if (!loaded) {
     return (
       <div className="loader">

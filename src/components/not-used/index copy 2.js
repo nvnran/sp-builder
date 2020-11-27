@@ -94,8 +94,6 @@ const HomeComponent = () => {
     editor();
   }, [pageData]);
 
-  console.log("rendering editor");
-
   return (
     <>
       <div id="grapesjs-react-editor">

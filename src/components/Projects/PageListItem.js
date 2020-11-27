@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import Swal from "sweetalert2";
-import { firestore } from "../Firebase";
 import axios from "axios";
 import { FiEdit3 } from "react-icons/fi";
 import { FaTrash } from "react-icons/fa";
@@ -13,7 +12,6 @@ const PageListItem = ({ data }) => {
   const projectId = new URLSearchParams(window.location.search).get(
     "projectId"
   );
-  const accountId = localStorage.getItem("accountId");
   const pageId = data.id;
   const handleEdit = () => {
     localStorage.removeItem("gjsassets");
@@ -26,55 +24,7 @@ const PageListItem = ({ data }) => {
     );
   };
   const handleDuplicate = () => {
-    firestore
-      .collection("accounts")
-      .doc(accountId)
-      .collection("projects")
-      .doc(projectId)
-      .collection("pages")
-      .doc(pageId)
-      .get()
-      .then((res) => {
-        var obj = {
-          "gjs-assets": res.data()["gjs-assets"],
-          "gjs-components": res.data()["gjs-components"],
-          "gjs-css": res.data()["gjs-css"],
-          "gjs-html": res.data()["gjs-html"],
-          "gjs-styles": res.data()["gjs-styles"],
-          accountId,
-          projectId,
-          author:
-            localStorage.getItem("firstName") +
-            " " +
-            localStorage.getItem("lastName"),
-          authorId: localStorage.getItem("userDocId"),
-          created: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-          pageTitle: res.data().pageTitle + " 2",
-        };
-        console.log(obj);
-        firestore
-          .collection("accounts")
-          .doc(accountId)
-          .collection("projects")
-          .doc(projectId)
-          .collection("pages")
-          .add(obj)
-          .then((doc) => {
-            firestore
-              .collection("accounts")
-              .doc(accountId)
-              .collection("projects")
-              .doc(projectId)
-              .collection("pages")
-              .doc(doc.id)
-              .update({
-                pageId: doc.id,
-              });
-          })
-          .then(() => {
-            window.location.reload();
-          });
-      });
+    console.log("Duplicate Clicked");
   };
 
   const handleDelete = () => {
@@ -104,18 +54,16 @@ const PageListItem = ({ data }) => {
   };
 
   const handleViewPage = () => {
-    window.open(`http://localhost:5000/viewpage/page/${pageId}`, "_blank");
+    window.open(
+      `http://localhost:5000/viewpage/page/${pageId}?identifier=${btoa(
+        data.identifier
+      )}`,
+      "_blank"
+    );
   };
 
   const handleSettings = () => {
-    window.location.replace(
-      "/project/page/settings/config?accountId=" +
-        accountId +
-        "&projectId=" +
-        projectId +
-        "&pageId=" +
-        data.id
-    );
+    window.location.replace("/project/page/settings/config?pageId=" + data.id);
   };
 
   return (

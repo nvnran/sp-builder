@@ -84,7 +84,6 @@ class HomeComponent extends React.Component {
     editor('destroy');
   }
   render() {
-    console.log('rendering editor');
     return (
       <>
         <div id='grapesjs-react-editor'></div>

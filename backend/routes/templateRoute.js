@@ -27,7 +27,6 @@ router.route("/:templateId").delete((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  console.log(req.body.templateTitle);
   let template = {};
 
   template.gjsassets = req.body.gjsassets;

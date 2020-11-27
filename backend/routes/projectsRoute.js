@@ -4,7 +4,9 @@ const Projects = require("../models/projectsModel");
 
 router.route("/").get((req, res) => {
   Projects.find()
-    .then((data) => res.json(data))
+    .then((data) => {
+      res.json(data);
+    })
     .catch((err) => res.status(400).send({ error: err }));
 });
 
@@ -17,7 +19,7 @@ router.route("/:projectId").get((req, res) => {
 router.route("/list/:accountId").get((req, res) => {
   Projects.find()
     .where("accountId")
-    .equals(req.params.projectId)
+    .equals(req.params.accountId)
     .then((data) => res.json(data))
     .catch((err) => res.status(400).send({ error: err }));
 });
